@@ -79,8 +79,21 @@ for p in ps:
     chi2 += (observed - expected) ** 2 / expected
 
 print('\nRAW GRADE χ^2 STATISTICS')
-print('χ^2 = ', chi2)
+print('χ^2 =', chi2)
+print('df =', df)
 print('p =', 1-stats.chi2.cdf(chi2, df))
+
+chi2 = 0
+for p in ps:
+    for i in range(q_control, total_q):
+        expected = p.expected_scores[i]#sum(p.expected_scores[q_control:])
+        observed = p.answers[i]#sum(p.answers[q_control:])
+        chi2 += (observed - expected) ** 2 / expected
+
+print('\nELO SCORE χ^2 STATISTICS (constantly updated, per question)')
+print('χ^2 =', chi2)
+print('df =', 3*(total_q-q_control)-1)
+print('p =', 1-stats.chi2.cdf(chi2, 3*(total_q-q_control)-1))
 
 chi2 = 0
 for p in ps:
@@ -88,9 +101,22 @@ for p in ps:
     observed = sum(p.answers[q_control:])
     chi2 += (observed - expected) ** 2 / expected
 
-print('\nELO SCORE χ^2 STATISTICS (constantly updated)')
-print('χ^2 = ', chi2)
+print('\nELO SCORE χ^2 STATISTICS (constantly updated, for next 10 questions together)')
+print('χ^2 =', chi2)
+print('df =', df)
 print('p =', 1-stats.chi2.cdf(chi2, df))
+
+chi2 = 0
+for p in ps:
+    for answer in p.answers[q_control:]:
+        expected = p.expected_scores[q_control]#*10
+        observed = answer#sum(p.answers[q_control:])
+        chi2 += (observed - expected) ** 2 / expected
+
+print('\nELO SCORE χ^2 STATISTICS (at question 30, per question)')
+print('χ^2 =', chi2)
+print('df =', 3*(total_q-q_control)-1)
+print('p =', 1-stats.chi2.cdf(chi2, 3*(total_q-q_control)-1))
 
 
 chi2 = 0
@@ -99,6 +125,7 @@ for p in ps:
     observed = sum(p.answers[q_control:])
     chi2 += (observed - expected) ** 2 / expected
 
-print('\nELO SCORE χ^2 STATISTICS (at question 30)')
-print('χ^2 = ', chi2)
+print('\nELO SCORE χ^2 STATISTICS (at question 30, for next 10 questions together)')
+print('χ^2 =', chi2)
+print('df =', df)
 print('p =', 1-stats.chi2.cdf(chi2, df))
