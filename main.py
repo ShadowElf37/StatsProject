@@ -84,7 +84,8 @@ print('df =', df)
 print('p =', 1-stats.chi2.cdf(chi2, df))
 
 
-
+# the degree of freedom is dubious
+# while the formula given to us demands that 1 be subtracted, limited research suggests it may be inaccurate in this case because it is not a zero-sum game; that is, all three subjects' scores are allowed to vary, and are not strictly determined by the others
 
 # METHOD 1
 # degrees of freedom: 3 participants * 10 questions - 1
