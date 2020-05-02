@@ -70,7 +70,7 @@ for p in ps:
 
 import scipy.stats as stats
 
-df = len(ps) - 1
+df = len(ps)
 
 chi2 = 0
 for p in ps:
@@ -83,6 +83,13 @@ print('χ^2 =', chi2)
 print('df =', df)
 print('p =', 1-stats.chi2.cdf(chi2, df))
 
+
+
+
+# METHOD 1
+# degrees of freedom: 3 participants * 10 questions - 1
+# for every question from each participant, the expected score was fetched, their answer was fetched, and those were compared and added to the X^2 value
+
 chi2 = 0
 for p in ps:
     for i in range(q_control, total_q):
@@ -92,8 +99,14 @@ for p in ps:
 
 print('\nELO SCORE χ^2 STATISTICS (constantly updated, per question)')
 print('χ^2 =', chi2)
-print('df =', 3*(total_q-q_control)-1)
-print('p =', 1-stats.chi2.cdf(chi2, 3*(total_q-q_control)-1))
+print('df =', 3*(total_q-q_control))
+print('p =', 1-stats.chi2.cdf(chi2, 3*(total_q-q_control)))
+
+
+# METHOD 2
+# degrees of freedom: 3 participants - 1
+# for every participant, their expected score over all 10 questions was summed and compared to their actual score on those 10 questions
+# the data used here is the same data used in "Expected/Actual performance on the last 10 questions"
 
 chi2 = 0
 for p in ps:
@@ -106,6 +119,11 @@ print('χ^2 =', chi2)
 print('df =', df)
 print('p =', 1-stats.chi2.cdf(chi2, df))
 
+
+# METHOD 3
+# degrees of freedom same as METHOD 1
+# the only difference between this and METHOD 1 is that the expected score was calculated once – at question 30 – and then compared to the actual answer for every question from every participant
+
 chi2 = 0
 for p in ps:
     for answer in p.answers[q_control:]:
@@ -115,9 +133,14 @@ for p in ps:
 
 print('\nELO SCORE χ^2 STATISTICS (at question 30, per question)')
 print('χ^2 =', chi2)
-print('df =', 3*(total_q-q_control)-1)
-print('p =', 1-stats.chi2.cdf(chi2, 3*(total_q-q_control)-1))
+print('df =', 3*(total_q-q_control))
+print('p =', 1-stats.chi2.cdf(chi2, 3*(total_q-q_control)))
 
+
+
+# METHOD 4
+# degrees of freedom same as METHOD 2
+# similar to METHOD 3, the expected score was taken once from the Elo at question 30, but this time it was multiplied by 10 (for 10 questions) and compared to the actual score on the last ten questions
 
 chi2 = 0
 for p in ps:
