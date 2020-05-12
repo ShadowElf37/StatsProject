@@ -1,3 +1,5 @@
+# written by Yovel
+
 class Participant:
     K = 32
 
